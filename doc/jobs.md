@@ -1,42 +1,41 @@
 # JOB DEFINITION
 
 ## Purpose
-Jobs are a combination of (typically) 1 trigger definition with 1 or more responses.
+- Jobs are a combination of 1 or more trigger definitions with 1 or more responses definitions.
+- When the service starts, all the jobs in the `config/jobs/` folder are read, set-up and activated.
 
 
 ## Syntax
 
 A job is defined in a text-based INI layout.
 
-	[trigger:name_of_trigger]
-	type="twitterstream_hashtag"
-	# will trigger on any 
-	keyword="#specialhashtag"
+```INI
+[trigger:name_of_trigger]
+type="twitterstream_hashtag"
+keyword="#specialhashtag"
 
-	valid_hours="[11:00;23:55]"
-	# multiple ranges allowed: "[10;11],[14;15]"
-	valid_days="[1;5]"
-	# 1 = Monday, 7 = Sunday
-	valid_period="[2013-01-01;2013-12-31]"
+valid_hours="[11:00;23:55]"
+valid_days="[1;5]"
+valid_period="[2013-01-01;2013-12-31]"
 
+[response:reply]
+type="twitter_reply"
+text="{@twhandle} Thank you for your feedback"
 
-	[response:reply]
-	type="twitter_reply"
-	text="{@twhandle} Thank you for your feedback"
+[response:thankyou1]
+type="screen_text"
+text="Thank you {@twhandle} for your feedback"
+duration="10"
 
-	[response:thankyou1]
-	type="screen_text"
-	text="Thank you {@twhandle} for your feedback"
-	duration="10"
+[response:video]
+type="screen_video"
+path="/share/videos/response.mp4"
 
-	[response:video]
-	type="screen_video"
-	path="/share/videos/response.mp4"
-
-	[response:thankyou1]
-	type="screen_text"
-	text="Hope you enjoyed it, {@twhandle}"
-	duration="10"
+[response:thankyou1]
+type="screen_text"
+text="Hope you enjoyed it, {@twhandle}"
+duration="10"
+```
 
 ## More info
 

@@ -1,21 +1,19 @@
 # TRIGGER SYNTAX
 
-## Example a trigger definition
+## Example trigger definition
 Example of a trigger definition in an job INI file:
 
 ```INI
-[trigger:name_of_trigger]
+[trigger:unique_name]
 ;; some comment
 type="twitter_hashtag"
-parameter="#specialhashtag"
+tw_text="#specialhashtag"
 max_distance="1km"
 valid_hours="13:00-23:59"
 valid_days ="1;3-7"
 valid_notbefore="2013-01-01"
 valid_notafter ="2013-12-31"
 ```
-
-# Description
 
 ## Title
 
@@ -32,36 +30,42 @@ This will define the type of trigger. Depending on the machine where it is runni
 
 - `twitter_follow`: 
 	- triggers for every new follower on Twitter of @myaccount
-	- required parameters: @myaccount 
+	- required parameters: tw_account="@myaccount"
+ 	- returned fields: `{twitter_user}, {date_time}`
 - `twitter_mention`:
 	- triggers for every Twitter mention of @myaccount
-	- required parameters: @myaccount 
+	- required parameters: tw_account="@myaccount"
+ 	- returned fields: `{twitter_user}, {twitter_message}, {geolocation}, {date_time}`
 - `twitter_hashtag`:
 	- triggers for every Twitter mention of #hashtag
-	- required parameters: #hashtag
+	- required parameters: tw_text="#hashtag"
+ 	- returned fields: `{twitter_user}, {twitter_message}, {geolocation}, {date_time}`
 - `rss_newitem`:
-	- triggers for every new follower on Twitter of @myaccount
-	- required parameters: @myaccount 
+	- triggers for every item in a RSS feed (for easy integration with other services)
+	- required parameters: URL
+ 	- returned fields: `{item_title}, {item_description}, {item_author}, {geolocation}, {date_time}`
 - `time_event`: 
 	- triggers at a certain moment, with optional recurrency
 	- required parameters: @myaccount
-	- ptional parameters: recurrence (every month, week, day, hour, X min)
+	- optional parameters: recurrence (every month, week, day, hour, X min)
+ 	- returned fields: `{date_time}`
 - `rpi_button`: 
 	- triggered by button push (only for Raspberry Pi GPIO)
 	- required parameters: PIN no
-
-- Future
+ 	- returned fields: `{PIN no}, {date_time}`
+- *Future triggers to consider*
 	- `facebook_follow`	: new follower of FB page
 	- `facebook_post`	: new post on FB page
 	- `facebook_share`	: new share of FB Page
-	- `twilio_recvsms`	: incoming SMS (via Twilio)
- 	- `twilio_recvcall`	: incoming call (via Twilio)
+	- `twilio_insms`	: incoming SMS (via Twilio)
+ 	- `twilio_incall`	: incoming call (via Twilio)
 	- `email_receive`	: incoming email (via POP3)
 
 
 ### Parameter
 
-Depending on the type of trigger, one or more parameters should be given
+Depending on the type of trigger, one or more parameters should be given.
+
 
 ## Optional filters
 
